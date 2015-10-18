@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AEE663F71BCC44AD00C839BE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEE663F61BCC44AD00C839BE /* main.cpp */; };
+		AEE663FF1BCC455400C839BE /* multihop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEE663FD1BCC455400C839BE /* multihop.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		AEE663F31BCC44AD00C839BE /* DTN_simulation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DTN_simulation; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEE663F61BCC44AD00C839BE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AEE663FD1BCC455400C839BE /* multihop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = multihop.cpp; sourceTree = "<group>"; };
+		AEE663FE1BCC455400C839BE /* multihop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multihop.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				AEE663F61BCC44AD00C839BE /* main.cpp */,
+				AEE663FD1BCC455400C839BE /* multihop.cpp */,
+				AEE663FE1BCC455400C839BE /* multihop.h */,
 			);
 			path = DTN_simulation;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEE663F71BCC44AD00C839BE /* main.cpp in Sources */,
+				AEE663FF1BCC455400C839BE /* multihop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
