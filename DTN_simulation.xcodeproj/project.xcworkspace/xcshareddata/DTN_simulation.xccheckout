@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7BA574F5-D0BA-44C7-99C0-2701673FC95C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DTN_simulation</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CE45EBE3844F9A3BA1F3C072377080F9A6F50594</key>
+		<string>github.com:hibazinga/DTN_simulation.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DTN_simulation.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CE45EBE3844F9A3BA1F3C072377080F9A6F50594</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:hibazinga/DTN_simulation.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CE45EBE3844F9A3BA1F3C072377080F9A6F50594</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CE45EBE3844F9A3BA1F3C072377080F9A6F50594</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DTN_simulation</string>
+		</dict>
+	</array>
+</dict>
+</plist>
