@@ -16,25 +16,35 @@
 using namespace std;
 
 class Multihop{
-private:
+public:
     int k;               // number of nodes
     double **lambda_matrix;      // describes the lambda of each two nodes
-    int level;
+    int _level;
+    int start_node;
+    int end_node;
     //  optimal_set[node][level] = vector<pair<node, exp>>;
     vector<vector<vector<pair<int,double>>>> optimal_set;
     // node_level_exp[node][level] = exp;
     vector<vector<double>> node_level_exp;
+    vector<vector<int>> multiCopyTwoHopSet;
+    vector<double> multiCopyExp;
 public:
     Multihop(int, int);
     void init_matrix();
+    void read_matrix();
     double getSubOptimalSet(int node, int level);
+    void getMultiCopyTwoHopSet(int node, int L);
     double calculateExp(int node, int level);
     double calculateExp0(int node, int level);
+    double calculateMultiCopyExp(int node, int L, double C);
     double simulate(int source_node);
     double simulate_helper(int node, int level);
     double wrapper_simalate(int source_node, int times);
     void printEXP();
     void printSET();
+    void printLambdaMatrix();
+    void printMultiCopyTwoHopEXP(int L);
+    void printMultiCopyTwoHopSET(int L);
     //void optimal_simulate();
 };
 
