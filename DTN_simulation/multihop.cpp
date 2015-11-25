@@ -19,6 +19,7 @@
 #include <string>
 #include <sstream>
 #include <math.h>
+#include <unordered_set>
 
 using namespace std;
 
@@ -39,8 +40,8 @@ Multihop::Multihop(int num, int __level){
     for (int i = 0; i < k; i++) {
         node_level_exp.push_back(temp);
     }
-    start_node = 20;
-    end_node = 65;
+    start_node = 60;
+    end_node = 75;
 }
 
 void Multihop::init_matrix(){
@@ -139,6 +140,14 @@ class Comparator
 public:
     bool operator()(pair<int,double> n1,pair<int,double> n2) {
         return n1.second > n2.second;
+    }
+};
+
+class Comparator0
+{
+public:
+    bool operator()(double o1, double o2) {
+        return o1 > o2;
     }
 };
 
@@ -340,7 +349,7 @@ void Multihop::getMultiCopyTwoHopSet(int node, int L){
                 }else break;
             }
             multiCopyExp.push_back(exp);
-            multiCopyTwoHopSet.push_back(tmp);
+            //multiCopyTwoHopSet.push_back(tmp);
         }
         cur_L++;
     }
@@ -371,7 +380,7 @@ double Multihop::calculateMultiCopyExp(int node, int L, double C){
 
 double Multihop::simulate(int source_node){
     double simulation_min_time = simulate_helper(source_node, _level - 1);
-    cout << "Simulation result: " << simulation_min_time << endl;
+    //cout << "Simulation result: " << simulation_min_time << endl;
     return simulation_min_time;
 }
 
@@ -385,32 +394,102 @@ double getMin(vector<double> v){
 }
 
 double Multihop::simulate_helper(int node, int level) {
+    srand((unsigned int)time(NULL));
     double random = ((double) rand() / (RAND_MAX));
+    int times = rand() % 100;
+    for (int i = 0; i < times; i++) { // random init
+        random = ((double) rand() / (RAND_MAX));
+    }
+    //double random = 0.7;
+    //cout << "#########" <<random << endl;
+    double t0;
+    if(lambda_matrix[node][end_node] == 0) t0 = INT32_MAX;
+    else t0 = -log(1-random) / lambda_matrix[node][end_node];
+    //cout <<"#####t0:" << t0 << endl;
+    if(level == 0) return t0;
+    queue<int> next_node;
+    queue<double> cur_exp;
+    queue<int> cur_level;
+    priority_queue<double, vector<double>, Comparator0> pq;
+    pq.push(t0);
+    next_node.push(node);
+    cur_exp.push(0);
+    cur_level.push(level);
+    
+    while (next_node.size() > 0) {
+        int tmp_node = next_node.front(); next_node.pop();
+        int tmp_level = cur_level.front(); cur_level.pop();
+        double tmp_exp = cur_exp.front(); cur_exp.pop();
+        if(tmp_level == 0 && tmp_node == end_node){ continue; }
+        if(tmp_level == 0) {
+            //srand((unsigned int)time(NULL));
+            random = ((double) rand() / (RAND_MAX));
+            pq.push(tmp_exp + -1 * log(1-random) / lambda_matrix[tmp_node][end_node]);
+            //cout << "###:" << tmp_exp + -1 * log(1-random) / lambda_matrix[tmp_node][end_node] <<endl;
+            continue;
+        }
+        for (int i = 0; i < optimal_set[tmp_node][tmp_level].size(); i++) {
+            int next = optimal_set[tmp_node][tmp_level][i].first;
+            //srand((unsigned int)time(NULL));
+            random = ((double) rand() / (RAND_MAX));
+            double temp = -log(1-random) / lambda_matrix[tmp_node][next];
+            if(tmp_exp + temp < pq.top()){
+                next_node.push(next);
+                cur_level.push(tmp_level - 1);
+                cur_exp.push(tmp_exp + temp);
+            }
+            if(lambda_matrix[next][end_node] != 0){
+                //srand((unsigned int)time(NULL));
+                random = ((double) rand() / (RAND_MAX));
+                pq.push(tmp_exp + temp + -1 * log(1-random) / lambda_matrix[next][end_node]);
+                //cout << "###:" << tmp_exp + temp + -1 * log(1-random) / lambda_matrix[next][end_node] <<endl;
+            }
+        }
+    }
+    return pq.top();
+}
+
+
+double Multihop::two_hop_simulate(int node, int L){ // L: num of copies
+    srand((unsigned int)time(NULL));
+    double random = ((double) rand() / (RAND_MAX));
+    int times = rand() % 100;
+    for (int i = 0; i < times; i++) { // random init
+        random = ((double) rand() / (RAND_MAX));
+    }
     double t0;
     if(lambda_matrix[node][end_node] == INT32_MAX) t0 = INT32_MAX;
     else t0 = -log(1-random) / lambda_matrix[node][end_node];
-    cout <<"#####t0:" <<t0 << endl;
-    if(level == 0) return t0;
-    priority_queue<pair<int, double>, vector<pair<int,double>>, Comparator> pq; // pair<node, exp>
-    for (int i = 0; i < optimal_set[node][level].size(); i++) {
-        int next = optimal_set[node][level][i].first;
-        double temp = -log(1-random) / lambda_matrix[node][next];
-        pq.push(make_pair(next, temp));
-    }
-    vector<double> v;
-    v.push_back(t0);
-    for (int i = 0; i < level; i++) {
-        double top = pq.top().second;
-        if(top > t0) break;
-        else{
-            v.push_back(top + simulate_helper(pq.top().first, level-1));
+    if(L == 0) return t0;
+    priority_queue<double, vector<double>, Comparator0> pq;
+    pq.top();
+    unordered_set<int> visited;
+    while (L > 0) {
+        vector<int> set = multiCopyTwoHopSet[L];
+        vector<int> candidate;
+        for (int i = 0; i < set.size(); i++) {
+            if(visited.find(set[i]) == visited.end()){
+                candidate.push_back(set[i]);
+            }
         }
-        pq.pop();
+        priority_queue<pair<int, double>, vector<pair<int,double>>, Comparator> tmp_pq;
+        for(int i = 0; i < candidate.size(); i++){
+            random = ((double) rand() / (RAND_MAX));
+            double tmp = -log(1-random) / lambda_matrix[node][candidate[i]];
+            tmp_pq.push(make_pair(candidate[i], tmp));
+        }
+        random = ((double) rand() / (RAND_MAX));
+        visited.insert(tmp_pq.top().first);
+        pq.push(tmp_pq.top().second + -log(1-random) / lambda_matrix[tmp_pq.top().first][end_node]);
+        L--;
     }
-    return getMin(v);
+    return pq.top();
 }
 
-double Multihop::wrapper_simalate(int source_node, int times){
+
+
+
+double Multihop::wrapper_simulate(int source_node, int times){
     double sum = 0;
     int count = times;
     for (int i = 0; i < times; i++) {

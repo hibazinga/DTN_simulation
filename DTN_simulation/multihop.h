@@ -39,7 +39,8 @@ public:
     double calculateMultiCopyExp(int node, int L, double C);
     double simulate(int source_node);
     double simulate_helper(int node, int level);
-    double wrapper_simalate(int source_node, int times);
+    double wrapper_simulate(int source_node, int times);
+    double two_hop_simulate(int node, int L);
     void printEXP();
     void printSET();
     void printLambdaMatrix();
