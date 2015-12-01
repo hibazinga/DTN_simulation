@@ -21,18 +21,35 @@ int main(int argc, const char * argv[]) {
     //std::cout << "Hello, World!\n";
     int num_of_nodes = 100;
     int level = 4;
-    int source_node = 60;
+    int source_node = 30;
     Multihop test(num_of_nodes, level);
+    //test.init_matrix();
     test.read_matrix();
     //test.printLambdaMatrix();
-    cout<<"EXP: " <<test.getSubOptimalSet(source_node, level) << endl;
-    test.printEXP();
-    test.printSET();
-    test.getMultiCopyTwoHopSet(source_node, 10);
-    test.printMultiCopyTwoHopSET(10);
-    test.printMultiCopyTwoHopEXP(10);
+    for (int j = 0; j < 50; j++) {
+        source_node = j;
+        test.start_node = j;
+    
+        test.getSubOptimalSet(source_node, level);
+    //test.printEXP();
     //test.printSET();
-    //cout<<"multi-hop: " << test.simulate(source_node) << endl;
-    //cout<<"2-hop:" << test.two_hop_simulate(source_node, 9) << endl;
+    test.getMultiCopyTwoHopSet(source_node, 10);
+    //test.printMultiCopyTwoHopSET(10);
+    //test.printMultiCopyTwoHopEXP(10);
+    //test.printSET();
+    
+    double count = 0;
+        /*
+    for (int i = 0 ; i < 100; i++) {
+        count += test.simulate(source_node);
+    }
+    cout<<j << " " << count / 100.0 << endl;
+         */
+     //   count = 0;
+    for (int i = 0 ; i < 100; i++) {
+        count += test.two_hop_simulate(source_node, 3);
+    }
+    cout<<j << " " << count / 100.0 << endl;
+    }
     return 0;
 }

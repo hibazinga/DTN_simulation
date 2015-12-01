@@ -40,7 +40,7 @@ Multihop::Multihop(int num, int __level){
     for (int i = 0; i < k; i++) {
         node_level_exp.push_back(temp);
     }
-    start_node = 60;
+    start_node = 30;
     end_node = 75;
 }
 
@@ -51,7 +51,7 @@ void Multihop::init_matrix(){
     srand((unsigned int)time(NULL));
     for(int i = 0; i < k; i++){
         for(int j = 0; j < i; j++){
-            int random = rand() % 10;  // each node has roughly
+            int random = rand() % 2;  // each node has roughly
                                        // one-tenth of the total nodes as its neightbours
             if(random == 0){
                 lambda_matrix[i][j] = 0.005 + rand()%50*0.0001; // range = [0.005, 0.01)
@@ -477,6 +477,9 @@ double Multihop::two_hop_simulate(int node, int L){ // L: num of copies
             random = ((double) rand() / (RAND_MAX));
             double tmp = -log(1-random) / lambda_matrix[node][candidate[i]];
             tmp_pq.push(make_pair(candidate[i], tmp));
+        }
+        if (tmp_pq.size() == 0) {
+            break;
         }
         random = ((double) rand() / (RAND_MAX));
         visited.insert(tmp_pq.top().first);
